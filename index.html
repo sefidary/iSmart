@@ -1,62 +1,125 @@
-<!DOCTYPE HTML>
 <html>
 <head>
-<title>smartHome</title>
+	<meta charset="utf-8">
+	<title>iSmart Remote</title>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="css/flat-ui.css" rel="stylesheet" type="text/css">
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+    	<script src="js/jquery-2.0.1.min.js"></script>
+    <script src="js/jquery.switch.min.js"></script> 
+<script src="phonegap.js"></script>
+	
+<link rel="apple-touch-icon" href="images/custom_icon.png"/>
 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
-    <link rel="stylesheet"  href="css/jquery.mobile-1.3.1.min.css">
-    <link rel="stylesheet"  href="css/SmartHome.min.css">
-	<script src="js/jquery.js"></script>
-	<script src="js/jquery.mobile-1.3.1.min.js"></script>
-	<script src="phonegap.js"></script>
+	<meta name="viewport" content="width=device-width initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+</head>
+<body><div class="r-header">
+				<div class="logo" ><img src="images/logo2.png" width="53" height="45" > </div>
+                <div class="settings"> <img src="images/setting.png" width="53" height="45"  /> </div>
+	</div>
+	<div id="loader" class="status fadeInDown animated hide">Y</div>
+	<div class="r-container ">
+		
+    	<div class="r-body" id="r-body">
+         
+            </div>
+        </div>
+    </div>
+	<div class="s-container">
+   
+	<h3>تنظیمات </h3>
+
+
+	<div class="row">
+
+    <div class="menu-item ">	
+		<label for="serveraddress">آدرس سرور:</label>
+<input type="text" name="serveraddress" id="serveraddress" value="">
+</div>
+<div class="menu-item">
+<label for="portaddress">پورت</label>
+<input type="text" name="portaddress" id="portaddress" value="">
+
+</div>
+<div class="menu-item " >
+<button  id="savebotton" class="btn   btn-inverse" onClick="submitdata();">ذخیره</button>
+</div>
+	</div>
+    </div>
+	<div class="footer" >
+    	<div class="lamba"><img src="images/ll_logo2.png" ></div>
+    </div>
+
 <script type="text/javascript" charset="utf-8">
+    document.addEventListener("deviceready", onDeviceReady, false);	
+	setInterval(function(){checkdata()},7000);
+	 var Loader = {
+  loader: $('#loader'),
+  show: function() {
+	  
+	this.loader.show();
+  },
+  hide: function() {
+	 
+	this.loader.hide();
+  }
+};
 
-    // Wait for device API libraries to load
-    //
-    document.addEventListener("deviceready", onDeviceReady, false);
 
- 
+
+var isLeft=false;
+
+	
+
+
     function onDeviceReady() {
 		$.ajaxSetup({timeout:800});
-        //window.localStorage.setItem("key", "sefidali");
+
         var checkFirst = window.localStorage.getItem("firstTime");
 		if( checkFirst === null ){
-		$.mobile.changePage( "#myDialog", { role: "dialog" } );
-		//window.localStorage.setItem("firstTime", "1");
+			
+				$('.r-container ,.r-header, .footer').animate({left: "280px"}, 300, function() {
+					isLeft=true;
+				}); 
+		
 		}else {
 		var server = window.localStorage.getItem("server");
 		$("#serveraddress").val(server);
+		
 		var port =window.localStorage.getItem("port");
 		$("#portaddress").val(port);
 		var html =window.localStorage.getItem("html");
-		$('#dokme').html(html).trigger( "create" );
-		$('.sliderswitch').change(function() 
-		{ 
-			var switchid= $(this).attr('data-switch');
-			var curentval=$(this).val();
-			var server = window.localStorage.getItem("server");
-			var port =window.localStorage.getItem("port");
-			var url="http://"+server+":"+port+"/?fn=03&nod="+switchid+"&dat="+curentval;
-			$.get(url , function(data) {});
-		});
+
+		$('#r-body').html(html);
+		$('select').switchify();
+	
 		}
 		
+		
+        $('.settings').on('click',function(e) {
+
+			if(!isLeft) {
+			
+				$('.r-container ,.r-header, .footer').animate({left: "280px"}, 300, function() {
+					isLeft=true;
+				}); 
+			}
+			
+		});
+		$(document).on('click','.r-container',function(e) {
+			if(isLeft) {
+				$('.r-container ,.r-header, .footer').animate({left: "0px"}, 300, function() {
+					isLeft=false;
+					
+				}); 
+			}
+			
+		});
 	
 		
     }
-	$(document).ready(function(){
-		$.ajaxSetup({timeout:800});
-		$('.sliderswitch').change(function() 
-		{ console.log(switchid);
-			var switchid= $(this).attr('data-switch');
-			$.get("http://"+server+":"+port+"/?fn=03&nod="+switchid+"&dat="+$('#slider2').val() , function(data) {
- 
-		});
-			
-		});
-		
-	});
+	
 	function processNode(arr) {
 		arr=arr.split("][");
 		var length = arr.length,
@@ -68,126 +131,109 @@
 		 	 perclick=  arr[i].split(",");
 			 var stringName = perclick[0] ;
 			 var nodeType=stringName.substr(0,2);
-			if(nodeType=="01") { var  nodeName = "پریز"; } else if(nodeType=="02") {  var  nodeName = "تک پل";} 
+			if(nodeType=="01") { var  nodeName = "socket"; } else if(nodeType=="02") {  var  nodeName = "1pol";} 
 			if(nodeType=="03") { //do pol 
-			var  nodeName = "دو پل";
+
 			 if(perclick[1]=="XX") {
-		  	 html = html+'<label  for="slider'+perclick[0]+'">پل اول '+nodeName+' '+perclick[0]+':</label> <select disabled name="slider'+perclick[0]+'2" id="slider'+perclick[0]+'1" class="sliderswitch" data-switch="'+perclick[0]+'1" data-role="slider"> <option value="00">قطع</option>    </select> <br>';
+			 html = html + ' <div class="row-per" ><img src="images/2pol.png" width="45" height="45"  /> <label for="slider2">نود '+perclick[0]+'</label><div class="dopol"><select disabled name="slider'+perclick[0]+'1" id="slider'+perclick[0]+'1" class="sliderswitch" data2-switch="'+perclick[0]+'1"><option value="01">&nbsp;</option><option value="00">&nbsp;</option></select>';
+		  	
 			 }else if(perclick[1]=="1") {
-			html = html+'<label for="slider'+perclick[0]+'">پل اول '+nodeName+' '+perclick[0]+':</label> <select  name="slider'+perclick[0]+'2" id="slider'+perclick[0]+'1" class="sliderswitch"  data-switch="'+perclick[0]+'1" data-role="slider"> <option value="00">خاموش</option>    <option selected value="01">روشن</option></select> <br>'; 
+			 html = html + ' <div class="row-per" ><img src="images/2pol.png" width="45" height="45"  /> <label for="slider2">نود '+perclick[0]+'</label><div class="dopol"><select  name="slider'+perclick[0]+'1" id="slider'+perclick[0]+'1" class="sliderswitch" data2-switch="'+perclick[0]+'1"><option value="01" selected="selected">&nbsp;</option><option value="00">&nbsp;</option></select>';
 			 }else if(perclick[1]=="0")  {
-				 html = html+'<label for="slider'+perclick[0]+'">پل اول '+nodeName+' '+perclick[0]+':</label> <select  name="slider'+perclick[0]+'2" id="slider'+perclick[0]+'1" class="sliderswitch"  data-switch="'+perclick[0]+'1" data-role="slider"> <option selected value="00">خاموش</option>    <option  value="01">روشن</option></select> <br>'; 
+				 html = html + ' <div class="row-per" ><img src="images/2pol.png" width="45" height="45"  /> <label for="slider2">نود '+perclick[0]+'</label><div class="dopol"><select  name="slider'+perclick[0]+'1" id="slider'+perclick[0]+'1" class="sliderswitch" data2-switch="'+perclick[0]+'1"><option value="01">&nbsp;</option><option value="00" selected="selected">&nbsp;</option></select>';
 			 }
 			 if(perclick[2]=="XX") {
-		  	 html = html+'<label  for="slider'+perclick[0]+'">پل دوم '+nodeName+' '+perclick[0]+':</label> <select disabled name="slider'+perclick[0]+'1" id="slider'+perclick[0]+'2" class="sliderswitch" data-switch="'+perclick[0]+'2" data-role="slider"> <option value="00">قطع</option>    </select> <br>';
+				 html = html + '<select disabled name="slider'+perclick[0]+'2" id="slider'+perclick[0]+'2" class="sliderswitch" data2-switch="'+perclick[0]+'2"><option value="01">&nbsp;</option>  <option value="00">&nbsp;</option></select></div></div>';
+		 
 			 }else if(perclick[2]=="1") {
-			html = html+'<label for="slider'+perclick[0]+'">پل دوم '+nodeName+' '+perclick[0]+':</label> <select  name="slider'+perclick[0]+'1" id="slider'+perclick[0]+'2" class="sliderswitch"  data-switch="'+perclick[0]+'2" data-role="slider"> <option value="00">خاموش</option>    <option selected value="01">روشن</option></select> <br>'; 
+			 html = html + '<select  name="slider'+perclick[0]+'2" id="slider'+perclick[0]+'2" class="sliderswitch" data2-switch="'+perclick[0]+'2"><option value="01" selected="selected">&nbsp;</option>  <option value="00">&nbsp;</option></select></div></div>';
 			 }else if(perclick[2]=="0")  {
-				 html = html+'<label for="slider'+perclick[0]+'">پل دوم '+nodeName+' '+perclick[0]+':</label> <select  name="slider'+perclick[0]+'1" id="slider'+perclick[0]+'2" class="sliderswitch"  data-switch="'+perclick[0]+'2" data-role="slider"> <option selected value="00">خاموش</option>    <option  value="01">روشن</option></select> <br>'; 
+			 html = html + '<select  name="slider'+perclick[0]+'2" id="slider'+perclick[0]+'2" class="sliderswitch" data2-switch="'+perclick[0]+'2"><option value="01">&nbsp;</option>  <option value="00" selected="selected">&nbsp;</option></select></div></div>';
 			 }
 			 
 			} else { //tak pol vaaa priiz
 				if(perclick[1]=="XX") {
-				 html = html+'<label  for="slider'+perclick[0]+'"> '+nodeName+' '+perclick[0]+':</label> <select disabled name="slider'+perclick[0]+'" id="slider'+perclick[0]+'" class="sliderswitch" data-switch="'+perclick[0]+'" data-role="slider"> <option value="00">قطع</option>    </select> <br>';
+				html = html+ '<div class="row-per"><img src="images/'+nodeName+'.png" width="45" height="45"  /> <label for="slider">نود '+perclick[0]+'</label><div class="takpol"> <select disabled name="slider'+perclick[0]+'" id="slider'+perclick[0]+'" class="sliderswitch" data2-switch="'+perclick[0]+'"><option value="01">&nbsp;</option><option value="00">&nbsp;</option></select></div></div>';
+				
 				 }else if(perclick[1]=="1") {
-				html = html+'<label for="slider'+perclick[0]+'"> '+nodeName+' '+perclick[0]+':</label> <select  name="slider'+perclick[0]+'" id="slider'+perclick[0]+'" class="sliderswitch"  data-switch="'+perclick[0]+'" data-role="slider"> <option value="00">خاموش</option>    <option selected value="01">روشن</option></select> <br>'; 
-				 }else if(perclick[1]=="0")  {
-					 html = html+'<label for="slider'+perclick[0]+'"> '+nodeName+' '+perclick[0]+':</label> <select  name="slider'+perclick[0]+'" id="slider'+perclick[0]+'" class="sliderswitch"  data-switch="'+perclick[0]+'" data-role="slider"> <option selected value="00">خاموش</option>    <option  value="01">روشن</option></select> <br>'; 
+				html = html+ '<div class="row-per"><img src="images/'+nodeName+'.png" width="45" height="45"  /> <label for="slider">نود '+perclick[0]+'</label><div class="takpol"> <select  name="slider'+perclick[0]+'" id="slider'+perclick[0]+'" class="sliderswitch" data2-switch="'+perclick[0]+'"><option value="01" selected="selected">&nbsp;</option><option value="00">&nbsp;</option></select></div></div>'; 
+				}else if(perclick[1]=="0")  {
+					html = html+ '<div class="row-per"><img src="images/'+nodeName+'.png" width="45" height="45"  /> <label for="slider">نود '+perclick[0]+'</label><div class="takpol"> <select  name="slider'+perclick[0]+'" id="slider'+perclick[0]+'" class="sliderswitch" data2-switch="'+perclick[0]+'"><option value="01">&nbsp;</option><option selected="selected" value="00" slected="selected">&nbsp;</option></select></div></div>';
 				 }
 				
 			}
 		}
-		$('#dokme').html(html).trigger( "create" );
-		
-		window.localStorage.setItem("html", html);
-		
-		$('.sliderswitch').change(function() 
+			$('#r-body').html(html).find('.sliderswitch').switchify();
+			
+			window.localStorage.setItem("html", html);
+		}
+		  function changevar(selectss)  
 		{ 
-			var switchid= $(this).attr('data-switch');
+			
+			var switchid= $(selectss).attr('data2-switch');
 			var nodeType=switchid.substr(0,2);
 			var server = window.localStorage.getItem("server");
 			var port =window.localStorage.getItem("port");
 			if (nodeType=="03") {
 				var nodeCurent = switchid.substr(-1,1);
-				if(nodeCurent =='1' ) {
-					var avalival=$(this).val();
-					var switchIDR= switchid.substr(0,4);
-					var oniekiID=switchIDR+'2';
-					var dovomival=$('#slider'+oniekiID).val();
-					
-				}else {
-					var dovomival=$(this).val();
+				if(nodeCurent =='2' ) {
+					var avalival=$(selectss).val();
 					var switchIDR= switchid.substr(0,4);
 					var oniekiID=switchIDR+'1';
+					var dovomival=$('#slider'+oniekiID).val();
+
+					
+				}else {
+					var dovomival=$(selectss).val();
+					
+					var switchIDR= switchid.substr(0,4);
+					var oniekiID=switchIDR+'2';
 					var avalival=$('#slider'+oniekiID).val();
+					
 					
 				}
 				var url="http://"+server+":"+port+"/?fn=03&nod="+switchIDR+"&dat="+avalival+dovomival;
 				$.get(url , function(data) {});
 			} else {
-				var curentval=$(this).val();
+				var curentval=$(selectss).val();
 				var server = window.localStorage.getItem("server");
 				var port =window.localStorage.getItem("port");
+				
 				var url="http://"+server+":"+port+"/?fn=03&nod="+switchid+"&dat="+curentval;
 				$.get(url , function(data) {});
 			}
-			});
-	}
+			}
+	
+	var checkDatas="";
 	function checkdata() {
-		var server = window.localStorage.getItem("server");
-		$("#serveraddress").val(server);
-		var port =window.localStorage.getItem("port");
-		$("#portaddress").val(port);
-	$.get("http://"+server+":"+port+"/?fn=02" , function(data) {
-		processNode(data);
 		
+		var server = window.localStorage.getItem("server");
+		
+		var port =window.localStorage.getItem("port");
+		
+	var url2="http://"+server+":"+port+"/?fn=02";
+	$.get(url2 , function(data) {
+		if(checkDatas != data ) {
+		checkDatas=data;
+		processNode(data);
+
+		}
 	});
 	}
 	function submitdata() {
 			window.localStorage.setItem("firstTime", "1");
 			var server = $("#serveraddress").val();
 			var port = $("#portaddress").val();
+			
 			window.localStorage.setItem("server", server);
 			window.localStorage.setItem("port", port);
 			checkdata();
-			window.history.back();
+			$('.r-container ,.r-header, .footer').animate({left: "0px"}, 300, function() {
+					isLeft=false;
+					
+				}); 
 }
 	
     </script>
-</head>
-<body> 
-
-<div data-role="page" id="mainpage">
-
-<div data-role="header" data-position="fixed">
-	<h1>خانه هوشمند </h1>
-</div>
-
-	<div data-role="content">	
-		<a href="#myDialog" data-rel="dialog" data-role="button">تغییر تنظیمات</a>
-        <a href="#" data-role="button" onClick="checkdata()" >دریافت اطلاعات 2</a>
-		<form id="dokme" >
-        
-        </form>
-	</div><!-- /content -->
-	
-</div><!-- /page -->
-
-
-<div data-role="page" id="myDialog">
-
-<div data-role="header" data-position="fixed">
-	<h1>تنظیمات </h1>
-</div>
-
-	<div data-role="content">	
-		<label for="serveraddress">آدرس سرور:</label>
-<input type="text" name="serveraddress" id="serveraddress" value="">
-<label for="portaddress">پورت</label>
-<input type="text" name="portaddress" id="portaddress" value="">
-<button  id="savebotton" onClick="submitdata();">ذخیره</button>
-
-	</div><!-- /content -->
-</div>
 </body>
 </html>
