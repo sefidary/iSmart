@@ -131,6 +131,9 @@ var isLeft=false;
 		 	 perclick=  arr[i].split(",");
 			 var stringName = perclick[0] ;
 			 var nodeType=stringName.substr(0,2);
+			 if(stringName=="0202") {
+				 html= html + '<div class="row-per" ><img src="images/1pol.png" width="45" height="45"  /> <label for="doorOpen">در ورودی گلدتگ </label><div class="takpol"> <button class="btn    btn-inverse" id="doorOpen">باز کن</button> </div></div>';	 
+			 } else {
 			if(nodeType=="01") { var  nodeName = "socket"; } else if(nodeType=="02") {  var  nodeName = "1pol";} 
 			if(nodeType=="03") { //do pol 
 
@@ -160,13 +163,42 @@ var isLeft=false;
 				}else if(perclick[1]=="0")  {
 					html = html+ '<div class="row-per"><img src="images/'+nodeName+'.png" width="45" height="45"  /> <label for="slider">نود '+perclick[0]+'</label><div class="takpol"> <select  name="slider'+perclick[0]+'" id="slider'+perclick[0]+'" class="sliderswitch" data2-switch="'+perclick[0]+'"><option value="01">&nbsp;</option><option selected="selected" value="00" slected="selected">&nbsp;</option></select></div></div>';
 				 }
-				
+			}	
 			}
 		}
 			$('#r-body').html(html).find('.sliderswitch').switchify();
 			
 			window.localStorage.setItem("html", html);
 		}
+		$(document).on("click" ,'#doorOpen' , function () {
+			var server ="91.98.37.244";
+			var port ="81";
+			$('#doorOpen').html("صبر ...");
+			var url="http://"+server+":"+port+"/?fn=03&nod=0202&dat=01";
+			setTimeout('zangkhamoosh()',2000);
+			$.get(url , function(data) {
+				});
+			
+		
+			
+			
+		});
+		 function zangkhamoosh() {
+			 $('#doorOpen').html("باز شد");
+			var server = window.localStorage.getItem("server");
+			var port =window.localStorage.getItem("port");
+			var url="http://"+server+":"+port+"/?fn=03&nod=0202&dat=00";
+			$.get(url , function(data) {
+				});
+				setTimeout('zangkhamoosh2()',3000);	
+		 }
+		 function zangkhamoosh2() {
+			  $('#doorOpen').html("باز کن");
+			var server = window.localStorage.getItem("server");
+			var port =window.localStorage.getItem("port");
+			var url="http://"+server+":"+port+"/?fn=03&nod=0202&dat=00";
+			$.get(url , function(data) {	});
+		 }
 		  function changevar(selectss)  
 		{ 
 			
