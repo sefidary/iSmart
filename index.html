@@ -294,7 +294,7 @@ var isLeft=false;
 	
 	var checkDatas="";
 	function checkdata() {
-		
+		if(!disableUpdate) {
 		var server = window.localStorage.getItem("server");
 		
 		var port =window.localStorage.getItem("port");
@@ -307,6 +307,7 @@ var isLeft=false;
 
 		}
 	});
+		}
 	}
 	function submitdata() {
 			window.localStorage.setItem("firstTime", "1");
