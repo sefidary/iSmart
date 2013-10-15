@@ -58,7 +58,7 @@
 	setInterval(function(){checkdata()},4000);
 
 var isLeft=false;
-
+var disableUpdate=false;
 	
 
 
@@ -269,7 +269,7 @@ var isLeft=false;
 				$.get(url , function(data) {});
 			} else if(nodeType=="06") {
 				var pos = $('#dimmer'+switchid).css("left");
-				disableUpdate=false;
+				
 				pos = pos.replace("px", "");
 				var size =$('#dimmer'+switchid).parent().css("width");
 				size = size.replace("px", "");

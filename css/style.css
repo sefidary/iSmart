@@ -94,35 +94,11 @@ margin-bottom:65px;
  padding:18px 20px;
  color:fff;
  overflow:hidden;
--webkit-transition: all 600ms cubic-bezier(0.655, 0, 0.265, 1); /* older webkit */
--webkit-transition: all 600ms cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-   -moz-transition: all 600ms cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-    -ms-transition: all 600ms cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-     -o-transition: all 600ms cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-        transition: all 600ms cubic-bezier(0.655, -0.390, 0.265, 1.550); /* custom */
 
--webkit-transition-timing-function: cubic-bezier(0.655, 0, 0.265, 1); /* older webkit */
--webkit-transition-timing-function: cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-   -moz-transition-timing-function: cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-    -ms-transition-timing-function: cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-     -o-transition-timing-function: cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-        transition-timing-function: cubic-bezier(0.655, -0.390, 0.265, 1.550); /* custom */
 }
 .longheigh {
 	height:80px;
--webkit-transition: all 600ms cubic-bezier(0.655, 0, 0.265, 1); /* older webkit */
--webkit-transition: all 600ms cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-   -moz-transition: all 600ms cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-    -ms-transition: all 600ms cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-     -o-transition: all 600ms cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-        transition: all 600ms cubic-bezier(0.655, -0.390, 0.265, 1.550); /* custom */
 
--webkit-transition-timing-function: cubic-bezier(0.655, 0, 0.265, 1); /* older webkit */
--webkit-transition-timing-function: cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-   -moz-transition-timing-function: cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-    -ms-transition-timing-function: cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-     -o-transition-timing-function: cubic-bezier(0.655, -0.390, 0.265, 1.550); 
-        transition-timing-function: cubic-bezier(0.655, -0.390, 0.265, 1.550); /* custom */
 }
 .row-per  img {
 		margin-right:7px;
