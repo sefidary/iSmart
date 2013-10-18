@@ -5,10 +5,12 @@
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
 	<link href="css/flat-ui.css" rel="stylesheet" type="text/css">
 	<link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/spectrum.css" rel="stylesheet" type="text/css">
     <script src="js/jquery-2.0.1.min.js"></script>
     <script src="js/jquery.switch.min.js"></script> 
     <script src="js/jquery-ui-1.10.3.mouse_core.js"></script>
     <script src="js/jquery.ui.touch-punch.js"></script>
+    <script src="js/spectrum.js"></script>
 	<script src="phonegap.js"></script>
 	
 <link rel="apple-touch-icon" href="images/custom_icon.png"/>
@@ -156,7 +158,7 @@ var disableUpdate=false;
 			 var stringName = perclick[0] ;
 			 var nodeType=stringName.substr(0,2);
 
-			if(nodeType=="01") { var  nodeName = "socket"; } else if(nodeType=="02") {  var  nodeName = "1pol";} else if(nodeType=="06") {  var  nodeName = "dimmer";} else if(nodeType=="07") {  var  nodeName = "door";} 
+			if(nodeType=="01") { var  nodeName = "socket"; } else if(nodeType=="02") {  var  nodeName = "1pol";} else if(nodeType=="05") {  var  nodeName = "rgb";} else if(nodeType=="06") {  var  nodeName = "dimmer";} else if(nodeType=="07") {  var  nodeName = "door";} 
 			if(nodeType=="03") { //do pol 
 
 			 if(perclick[1]=="XX") {
